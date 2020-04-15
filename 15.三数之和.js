@@ -2,6 +2,7 @@
  * @lc app=leetcode.cn id=15 lang=javascript
  *
  * [15] 三数之和
+ * 一定要用双指针夹逼法..  暴力3循环和2循环+map都会超时....
  */
 
 // @lc code=start
@@ -10,20 +11,35 @@
  * @return {number[][]}
  */
 var threeSum = function (nums) {
-    const result = new Set();
-    for (let i = 0; i < nums.length; i++) {
-        const diffMap = new Map();
-        for (let j = i + 1; j < nums.length; j++) {
-            const diff = 0 - nums[i] - nums[j];
-            if (diffMap.has(nums[j])) {
-                const arr = [nums[i], nums[j], diffMap.get(nums[j])];
-                result.add(arr.sort((a, b) => a - b).toString());
+    const result = [];
+    nums = nums.sort((a, b) => a - b);
+    let i = 0;
+    let j = 1;
+    let k = nums.length - 1;
+    outer: while (i < nums.length - 2) {
+        while (j < k) {
+            const sum = nums[i] + nums[j] + nums[k];
+            if (sum == 0) {
+                result.push([nums[i], nums[j], nums[k]]);
+                while (nums[j] == nums[++j]) { }
+                while (nums[k] == nums[--k]) { }
+            } else if (sum > 0) {
+                while (nums[k] == nums[--k]) { }
             } else {
-                diffMap.set(diff, nums[j]);
+                while (nums[j] == nums[++j]) { }
+            }
+            if (k < 0 || j > nums.length) {
+                break outer;
             }
         }
+        while (nums[i] == nums[++i]) { }
+        if (nums[i] > 0 || i > nums.length - 2) {
+            break;
+        }
+        j = i + 1;
+        k = nums.length - 1;
     }
-    return [...result].map(e => e.split(',').map(l => Number(l)));
+    return result;
 };
 // @lc code=end
 
