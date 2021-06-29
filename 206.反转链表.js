@@ -17,14 +17,23 @@
  * @return {ListNode}
  */
 var reverseList = function (head) {
-    let prevHead = null;
-    while (head) {
-        const curNext = head.next;
-        head.next = prevHead;
-        prevHead = head;
-        head = curNext;
-    }
-    return prevHead;
+    // 非递归版本
+    // let prevHead = null;
+    // while (head) {
+    //     const curNext = head.next;
+    //     head.next = prevHead;
+    //     prevHead = head;
+    //     head = curNext;
+    // }
+    // return prevHead;
+
+    // 尝试一下递归的版本，练习下递归思维
+    if (head === null) return null;
+    if (head.next === null) return head;
+    const last = reverseList(head.next);
+    head.next.next = head;
+    head.next = null;
+    return last;
 };
 // @lc code=end
 
