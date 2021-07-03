@@ -34,31 +34,41 @@ console.log(swapPairs(a));
  */
 // 迭代法，也可以用递归
 var swapPairs = function (head) {
-    let curHead = head;
-    // 奇数
-    let oddHead = null;
-    let prevOddHead = null;
-    let secondNode = head && head.next ? head.next : head;
+    // let curHead = head;
+    // // 奇数
+    // let oddHead = null;
+    // let prevOddHead = null;
+    // let secondNode = head && head.next ? head.next : head;
 
-    while (curHead) {
-        // 缓存下一个节点
-        const nextHead = curHead.next;
-        if (oddHead === null) {
-            oddHead = curHead;
-            if (prevOddHead === null) {
-                prevOddHead = curHead;
-            }
-        } else {
-            curHead.next = oddHead;
-            // 把1链接到4
-            prevOddHead.next = curHead;
-            prevOddHead = oddHead;
-            oddHead.next = nextHead;
-            oddHead = null;
-        }
-        curHead = nextHead;
+    // while (curHead) {
+    //     // 缓存下一个节点
+    //     const nextHead = curHead.next;
+    //     if (oddHead === null) {
+    //         oddHead = curHead;
+    //         if (prevOddHead === null) {
+    //             prevOddHead = curHead;
+    //         }
+    //     } else {
+    //         curHead.next = oddHead;
+    //         // 把1链接到4
+    //         prevOddHead.next = curHead;
+    //         prevOddHead = oddHead;
+    //         oddHead.next = nextHead;
+    //         oddHead = null;
+    //     }
+    //     curHead = nextHead;
+    // }
+    // return secondNode;
+
+    // 递归版本
+    if (head === null || head.next === null) {
+        return head;
     }
-    return secondNode;
+    const _headNext = head.next;
+    const nextNode = _headNext.next;
+    head.next.next = head;
+    head.next = swapPairs(nextNode);
+    return _headNext;
 };
 // @lc code=end
 
