@@ -13,21 +13,18 @@
  * }
  */
 
-var newNext = null;
-function reverseK(node, k) {
-    if (node === null) {
+let next = null;
+function kReverse(head, k) {
+    if (head === null) {
         return null;
     }
     if (k === 1) {
-        newNext = node.next;
-        return node;
+        next = head.next;
+        return head;
     }
-    const last = reverseK(node.next, k - 1);
-    if (node.next === null) {
-        debugger
-    }
-    node.next.next = node;
-    node.next = newNext;
+    const last = kReverse(head.next, k - 1);
+    head.next.next = head;
+    head.next = next;
     return last;
 }
 /**
@@ -37,23 +34,18 @@ function reverseK(node, k) {
  */
 var reverseKGroup = function (head, k) {
     if (head === null) {
-        return head;
+        return null;
     }
-    if (head.next === null) {
-        return head;
-    }
-    let _head = head;
+    let nextHead = head;
     for (let i = 0; i < k; i++) {
-        if (_head === null) {
+        if (nextHead === null) {
             return head;
         }
-        _head = _head.next;
+        nextHead = nextHead.next;
     }
-    const _newHead = reverseK(head, k);
-    const nextNode = _head;
-    const newHead = reverseKGroup(nextNode, k);
-    head.next = newHead;
-    return _newHead;
+    const newHead = kReverse(head, k);
+    head.next = reverseKGroup(nextHead, k);
+    return newHead;
 };
 // @lc code=end
 
