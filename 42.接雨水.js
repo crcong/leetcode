@@ -14,7 +14,7 @@ var trap = function (height) {
     let result = 0;
     for (let i = 0; i < height.length; i++) {
         let pops = [];
-        while (stack.length > 0 && stack[stack.length - 1][1] > height[i]) {
+        while (stack.length > 0 && stack[stack.length - 1][1] <= height[i]) {
             pops.push(stack.pop());
         }
         if (stack[stack.length - 1]) {
